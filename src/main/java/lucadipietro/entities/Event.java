@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lucadipietro.enums.EventType;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,24 +15,22 @@ public class Event {
     @Id
     @GeneratedValue
     private UUID id;
-
     private String title;
-
     @Column(name = "event_date")
     private LocalDate eventDate;
-
     private String description;
-
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;
-
     @Column(name = "max_participants")
     private Integer maxParticipants;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
+
+    @OneToMany(mappedBy = "event")
+    private List<Participation> participations;
 
     public Event() {
     }
@@ -49,9 +48,6 @@ public class Event {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -99,5 +95,13 @@ public class Event {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
     }
 }

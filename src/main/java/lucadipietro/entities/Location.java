@@ -1,29 +1,27 @@
 package lucadipietro.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "location")
+@Table(name = "locations")
 public class Location {
 
     @Id
     @GeneratedValue
     private UUID id;
-
     private String name;
-
     private String city;
+
+    @OneToMany(mappedBy = "location")
+    private List<Event> events;
 
     public Location() {
     }
 
-    public Location(UUID id, String name, String city) {
-        this.id = id;
+    public Location(String name, String city) {
         this.name = name;
         this.city = city;
     }
@@ -32,9 +30,6 @@ public class Location {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -50,5 +45,13 @@ public class Location {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }
